@@ -5,7 +5,7 @@ app.use(express.json());
 
 
 app.get('/health', (req, res) => {
-    res.json({ status: 'UP', service: 'workflow-engine-api' });
+    res.json({ status: 'UP', service: 'workflow-engine-api-' });
 });
 
 module.exports = app;
