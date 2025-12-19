@@ -3,8 +3,6 @@
   "version": "1.0.0",
   "main": "src/server.js",
   "scripts": {
-    "dev:api": "nodemon src/server.js",
-    "dev:worker": "nodemon src/workers/workerRunner.js",
     "start:api": "node src/server.js",
     "start:worker": "node src/workers/workerRunner.js",
     "test": "jest"

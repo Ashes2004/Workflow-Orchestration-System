@@ -11,10 +11,6 @@ services:
       - MONGO_URI=mongodb://mongo:27017/workflow_engine
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-    volumes:                 # <--- NEW: Mirror code
-      - ./src:/usr/src/app/src
-      - ./package.json:/usr/src/app/package.json
-    command: npm run dev:api     # <--- NEW: Run nodemon  
     depends_on:
       - mongo
       - redis
@@ -29,11 +25,6 @@ services:
       - MONGO_URI=mongodb://mongo:27017/workflow_engine
       - REDIS_HOST=redis
       - REDIS_PORT=6379
-    volumes:                 # <--- NEW: Mirror code
-      - ./src:/usr/src/app/src
-      - ./package.json:/usr/src/app/package.json
-    # We will need a nodemon entry for worker too, but for now:
-    command: npm run dev:worker  # <--- NEW: Run nodemon 
     depends_on:
       - mongo
       - redis
