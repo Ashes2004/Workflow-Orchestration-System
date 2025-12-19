@@ -11,6 +11,8 @@ services:
       - MONGO_URI=mongodb://mongo:27017/workflow_engine
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    volumes:
+      - ./src:/usr/src/app/src
     depends_on:
       - mongo
       - redis
@@ -25,6 +27,8 @@ services:
       - MONGO_URI=mongodb://mongo:27017/workflow_engine
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    volumes:
+      - ./src:/usr/src/app/src 
     depends_on:
       - mongo
       - redis
@@ -34,7 +38,7 @@ services:
   mongo:
     image: mongo:6.0
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongo-data:/data/db
     networks:

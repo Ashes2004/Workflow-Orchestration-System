@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const StepExecutionSchema = new mongoose.Schema({
   executionId: {
     type: mongoose.Schema.Types.ObjectId,

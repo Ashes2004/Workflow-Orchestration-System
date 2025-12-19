@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const ExecutionSchema = new mongoose.Schema({
   workflowId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -11,3 +13,5 @@ const ExecutionSchema = new mongoose.Schema({
   },
   input: { type: mongoose.Schema.Types.Mixed, default: {} }
 }, { timestamps: true });
+
+module.exports = mongoose.model("Execution", ExecutionSchema);
