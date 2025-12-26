@@ -1,13 +1,15 @@
-const connectDB = require('../config/database');
+require("dotenv").config();
+const connectDB = require("../config/database");
+const Worker = require("./worker");
 const { connectRedis } = require('../config/redis');
 
-const startWorker = async () => {
-    await connectDB();
-    await connectRedis();
-    console.log("Worker process started... waiting for jobs (Not implemented yet)");
-    
-    // Keep process alive
-    setInterval(() => {}, 1000); 
-};
+(async () => {
+  await connectDB();
+  await connectRedis();
+  const worker = new Worker();
 
-startWorker();
+  while (true) {
+    await worker.runOnce();
+    await new Promise(r => setTimeout(r, 1000));
+  }
+})();

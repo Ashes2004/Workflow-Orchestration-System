@@ -1,53 +1,42 @@
-/**
- * Decides the next action based on workflow definition and current history.
- * * @param {Object} workflow - The full workflow document
- * @param {Array} stepExecutions - List of StepExecution documents for this run
- * @returns {Object} { action: 'RUN_STEP' | 'COMPLETE' | 'FAIL', step: Object | null }
- */
-const determineNextStep = (workflow, stepExecutions) => {
-    // 1. Create a map for fast lookup: "stepId" -> Status
-    const executionMap = {};
-    stepExecutions.forEach(exec => {
-        executionMap[exec.stepId] = exec;
-    });
+const ExecutionRepository = require("../repositories/Execution.repository");
+const StepExecutionRepository = require("../repositories/stepExecution.repository");
 
-    // 2. Iterate through the blueprint order
-    for (const stepConfig of workflow.steps) {
-        const stepId = stepConfig.stepId;
-        const currentStatus = executionMap[stepId]?.status; // e.g., 'SUCCESS', 'FAILED', undefined
+class ExecutionEngine {
+  constructor() {
+    this.executionRepo = new ExecutionRepository();
+    this.stepExecutionRepo = new StepExecutionRepository();
+  }
 
-        // Case A: Step hasn't started yet
-        if (!currentStatus) {
-            return { action: 'RUN_STEP', step: stepConfig };
-        }
+  async getNextRunnableStep() {
+    // 1) find RUNNING execution
+    const execution = await this.executionRepo.findRunningExecution();
+    if (!execution) return null;
 
-        // Case B: Step is currently running (or worker crashed while running)
-        // In a real system, we'd check timestamps to detect "stuck" jobs. 
-        // For now, we assume if it's IN_PROGRESS, let it finish.
-        if (currentStatus === 'IN_PROGRESS') {
-            return { action: 'WAIT', step: null }; 
-        }
+    // 2) load steps in order
+    const steps = await this.stepExecutionRepo.findByExecutionId(execution._id);
 
-        // Case C: Step Failed
-        if (currentStatus === 'FAILED') {
-            const attemptCount = executionMap[stepId].attemptCount || 0;
-            const maxRetries = stepConfig.config.retries || 0;
+    for (let i = 0; i < steps.length; i++) {
+      const curr = steps[i];
 
-            if (attemptCount <= maxRetries) {
-                return { action: 'RUN_STEP', step: stepConfig }; // Retry!
-            } else {
-                return { action: 'FAIL', step: null }; // Exhausted retries
-            }
-        }
+      //  ALL previous steps must be SUCCESS
+      const allPreviousSuccessful = steps
+        .slice(0, i)
+        .every(s => s.status === "SUCCESS");
 
-        // Case D: Step Success
-        if (currentStatus === 'SUCCESS') {
-            continue; // Move to next step in loop
-        }
+      if (curr.status === "PENDING" && allPreviousSuccessful) {
+        return {
+          executionId: execution._id,
+          stepExecutionId: curr._id,
+          stepId: curr.stepId,
+          handler: curr.handler,
+          config: curr.config,
+          input: curr.input
+        };
+      }
     }
 
-    // 3. If loop finishes, all steps are SUCCESS
-    return { action: 'COMPLETE', step: null };
-};
+    return null;
+  }
+}
 
-module.exports = { determineNextStep };
+module.exports = ExecutionEngine;
