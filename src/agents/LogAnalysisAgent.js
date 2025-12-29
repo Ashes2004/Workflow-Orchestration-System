@@ -79,7 +79,7 @@ STYLE REQUIREMENTS:
 - No bullet points.
 - No emojis.
 - No assumptions beyond the data.
-
+if failure , give a field reaseon:string , where give exact reason of failure , no extra talks
 Now generate the analysis.
 `;
 }

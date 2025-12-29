@@ -1,9 +1,9 @@
-const DownloadFileStep = require("../steps/DownloadFileStep");
-const ValidateFileStep = require("../steps/ValidateFileStep");
-const ProcessFileStep = require("../steps/ProcessFileStep");
+const UploadMediaStep = require("../steps/UploadMediaStep");
+const ValidateMediaStep = require("../steps/validateMediaStep");
+const PublishPostStep = require("../steps/PublishPostStep");
 
 module.exports = {
-  DownloadFileStep,
-  ValidateFileStep,
-  ProcessFileStep
+  UploadMediaStep,
+  ValidateMediaStep,
+  PublishPostStep
 };

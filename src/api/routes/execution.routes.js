@@ -6,7 +6,6 @@ const StepExecutionReadController = require("../controllers/stepExecutionRead.co
 const controller = new ExecutionController();
 const stepController = new StepExecutionReadController();
 router.post("/:workflowId/run", controller.startExecution.bind(controller));
-router.post("/:workflowId/run", controller.startExecution.bind(controller));
 router.get("/execution/:executionId/steps", stepController.getSteps.bind(stepController));
 router.get("/" , controller.findAllExecutions.bind(controller));
 
