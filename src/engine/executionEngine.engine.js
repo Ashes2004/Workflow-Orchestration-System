@@ -10,7 +10,7 @@ class ExecutionEngine {
   async getNextRunnableStep() {
     // 1) find RUNNING execution
     const execution = await this.executionRepo.findRunningExecution();
-    if (!execution) return null;
+    if (!execution || execution.status !== "RUNNING") return null;
 
     // 2) load steps in order
     const steps = await this.stepExecutionRepo.findByExecutionId(execution._id);
@@ -21,7 +21,7 @@ class ExecutionEngine {
       //  ALL previous steps must be SUCCESS
       const allPreviousSuccessful = steps
         .slice(0, i)
-        .every(s => s.status === "SUCCESS");
+        .every((s) => s.status === "SUCCESS");
 
       if (curr.status === "PENDING" && allPreviousSuccessful) {
         return {
@@ -30,7 +30,7 @@ class ExecutionEngine {
           stepId: curr.stepId,
           handler: curr.handler,
           config: curr.config,
-          input: curr.input
+          input: curr.input,
         };
       }
     }

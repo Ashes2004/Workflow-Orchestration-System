@@ -16,6 +16,37 @@ class ExecutionController {
       res.status(400).json({ error: err.message });
     }
   }
+
+  async findAllExecutions(req, res) {
+    try {
+      const execution = await this.executionService.findAllExecutions();
+      res.status(201).json(execution);
+    } catch (error) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
+  async pause(req, res) {
+    try {
+      const execution = await this.executionService.pauseExecution(
+        req.params.executionId
+      );
+      res.json(execution);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  }
+
+  async resume(req, res) {
+    try {
+      const execution = await this.executionService.resumeExecution(
+        req.params.executionId
+      );
+      res.json(execution);
+    } catch (err) {
+      res.status(400).json({ error: err.message });
+    }
+  }
 }
 
 module.exports = ExecutionController;

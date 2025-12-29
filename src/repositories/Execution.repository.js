@@ -5,7 +5,7 @@ class ExecutionRepository {
     return Execution.create({
       workflowId,
       input,
-      status: "RUNNING"
+      status: "RUNNING",
     });
   }
 
@@ -26,7 +26,33 @@ class ExecutionRepository {
   }
 
   async findRunningExecution() {
-    return Execution.findOne({ status: "RUNNING" });
+    return Execution.findOne({ status: "RUNNING" }).sort({ createdAt: 1 });
+  }
+
+  async findById(executionId) {
+    return Execution.findById(executionId).lean();
+  }
+  async findRunningExecutions() {
+    return Execution.find({ status: "RUNNING" }).lean();
+  }
+
+  async findAll() {
+    return Execution.find().lean();
+  }
+  async pause(executionId) {
+    return Execution.findByIdAndUpdate(
+      executionId,
+      { status: "PAUSED" },
+      { new: true }
+    );
+  }
+
+  async resume(executionId) {
+    return Execution.findByIdAndUpdate(
+      executionId,
+      { status: "RUNNING" },
+      { new: true }
+    );
   }
 }
 

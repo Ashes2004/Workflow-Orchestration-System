@@ -5,7 +5,7 @@ class ProcessFileStep extends StepInterface {
     console.log(`[${context.executionId}] Processing file`);
 
     // simulate delay
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise(r => setTimeout(r, 5000));
 
     return {
       processed: true

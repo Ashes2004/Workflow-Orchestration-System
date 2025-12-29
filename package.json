@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mongoose": "^9.0.1",

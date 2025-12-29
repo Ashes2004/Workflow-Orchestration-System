@@ -4,14 +4,13 @@ class ValidateFileStep extends StepInterface {
   async execute(config, input, context) {
     console.log(`[${context.executionId}] Validating file`);
 
-    if (Math.random() < 0.4) {
+    if (Math.round(Math.random() * 10) < 6) {
       throw new Error("File validation failed");
+    } else {
+      return {
+        valid: true,
+      };
     }
-
-    return {
-      valid: true
-    };
-    //  throw new Error("Validation failed");
   }
 }
 

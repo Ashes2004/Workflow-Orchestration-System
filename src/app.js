@@ -1,6 +1,7 @@
 const express = require('express');
 const workflowRoutes = require("./api/routes/workflow.routes");
 const executionRoutes = require("./api/routes/execution.routes");
+const aianalysis = require("./api/routes/executionAnalysis.routes")
 const app = express();
 
 app.use(express.json());
@@ -14,5 +15,6 @@ app.get('/health', (req, res) => {
 
 app.use("/workflows", workflowRoutes);
 app.use("/executions", executionRoutes);
+app.use("/ai", aianalysis);
 
 module.exports = app;

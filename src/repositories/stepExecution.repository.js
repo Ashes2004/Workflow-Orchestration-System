@@ -59,6 +59,17 @@ class StepExecutionRepository {
       { status: "PENDING" }
     );
   }
+
+  async resetRunningSteps(executionId) {
+  return StepExecution.updateMany(
+    { executionId, status: "RUNNING" },
+    {
+      status: "PENDING",
+      startedAt: null
+    }
+  );
+}
+
 }
 
 module.exports = StepExecutionRepository;

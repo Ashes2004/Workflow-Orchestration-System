@@ -5,7 +5,7 @@ class DownloadFileStep extends StepInterface {
     console.log(`[${context.executionId}] Downloading file`);
 
     // simulate delay
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 10000));
 
     return {
       filePath: "/tmp/file.dat"
