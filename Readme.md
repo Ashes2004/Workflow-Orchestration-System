@@ -365,7 +365,7 @@ Start a workflow execution from any backend service:
 **Request:**
 
 ```bash
-POST /executions/:workflowId/start
+POST /executions/:workflowId/run
 Content-Type: application/json
 
 {
