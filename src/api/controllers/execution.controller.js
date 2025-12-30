@@ -26,6 +26,17 @@ class ExecutionController {
     }
   }
 
+   async findExecutionById(req ,res){
+      try {
+        const {executionId} = req.params;
+        if(!executionId) throw new Error('execution id needed');
+        const execution = await this.executionService.findExecutionById(executionId);
+        res.status(201).json(execution);
+      } catch (error) {
+         res.status(400).json({ error: err.message });
+      }
+   }
+
   async pause(req, res) {
     try {
       const execution = await this.executionService.pauseExecution(

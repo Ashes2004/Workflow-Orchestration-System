@@ -8,6 +8,7 @@ const stepController = new StepExecutionReadController();
 router.post("/:workflowId/run", controller.startExecution.bind(controller));
 router.get("/execution/:executionId/steps", stepController.getSteps.bind(stepController));
 router.get("/" , controller.findAllExecutions.bind(controller));
+router.get("/:executionId" , controller.findExecutionById.bind(controller));
 
 router.post("/:executionId/pause", controller.pause.bind(controller));
 router.post("/:executionId/resume", controller.resume.bind(controller));

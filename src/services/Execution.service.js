@@ -64,6 +64,10 @@ class ExecutionService {
 
     return this.executionRepo.resume(executionId);
   }
+
+  async findExecutionById(id){
+     return this.executionRepo.findById(id);
+  }
 }
 
 module.exports = ExecutionService;
