@@ -326,10 +326,6 @@ Workflows are stored in MongoDB. Seed them via the API or database directly.
       "config": {
         "maxSizeMB": 10,
         "allowedTypes": ["image/jpeg", "image/png"]
-      },
-      "retryPolicy": {
-        "maxRetries": 3,
-        "retryDelayMs": 2000
       }
     },
     {
@@ -338,10 +334,6 @@ Workflows are stored in MongoDB. Seed them via the API or database directly.
       "config": {
         "minWidth": 1080,
         "minHeight": 1080
-      },
-      "retryPolicy": {
-        "maxRetries": 1,
-        "retryDelayMs": 0
       }
     },
     {
@@ -350,10 +342,6 @@ Workflows are stored in MongoDB. Seed them via the API or database directly.
       "config": {
         "platform": "instagram",
         "visibility": "public"
-      },
-      "retryPolicy": {
-        "maxRetries": 5,
-        "retryDelayMs": 5000
       }
     }
   ]
@@ -423,7 +411,7 @@ Content-Type: application/json
 
 ### Retry Boundaries
 
-Each step maintains its own retry boundary. Failed steps **block** all downstream steps until resolved.
+Each step maintains its boundary (currently its static 3 retries , will be dynamic soon). Failed steps **block** all downstream steps until resolved.
 
 **Example Scenario:**
 
@@ -440,7 +428,7 @@ Step 1: Upload     [SUCCESS] ✓
 Step 2: Validate   [SUCCESS] ✓ (attempt 2/3)
 Step 3: Process    [RUNNING] ▶
 ```
-
+<!-- 
 ### Retry Configuration
 
 ```javascript
@@ -460,7 +448,7 @@ Step 3: Process    [RUNNING] ▶
 - Attempt 1: Immediate
 - Attempt 2: After 5000ms
 - Attempt 3: After 10000ms (with backoff)
-- Attempt 4: After 20000ms (with backoff)
+- Attempt 4: After 20000ms (with backoff) -->
 
 ### Error Handling Best Practices
 
