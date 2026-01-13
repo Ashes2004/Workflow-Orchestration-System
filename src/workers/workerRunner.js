@@ -6,13 +6,13 @@ const StepExecutionRepository = require("../repositories/stepExecution.repositor
 const { connectRedis } = require('../config/redis');
 require("dotenv").config();
 (async () => {
-  // ✅ WAIT for DB
+  // WAIT for DB
   await connectDB();
   await connectRedis();
   const executionRepo = new ExecutionRepository();
   const stepRepo = new StepExecutionRepository();
 
-  // 🔧 STARTUP RECOVERY
+  //  STARTUP RECOVERY
   const runningExecutions = await executionRepo.findRunningExecutions();
 
   for (const exec of runningExecutions) {
@@ -20,7 +20,7 @@ require("dotenv").config();
     console.log(`Recovered execution ${exec._id}`);
   }
 
-  // 🚀 Worker loop
+  // Worker loop
   const worker = new Worker();
   while (true) {
     await worker.runOnce();
